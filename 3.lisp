@@ -22,9 +22,13 @@
                     (parse-mul (reduce (lambda (a b) (concatenate 'string a b))
                                    lines))))))
 
+(defun remove-dont (str)
+  (cl-ppcre:regex-replace-all "(don't\(\))((?!do\(\)).)*" str ""))
+
 (defun main-2 (filename)
   (let ((lines (uiop:read-file-lines filename)))
     (reduce #'+ (mapcar (lambda (ints)
                           (apply #'* ints))
-                    (parse-mul (reduce (lambda (a b) (concatenate 'string a b))
-                                   lines))))))
+                    (parse-mul (remove-dont
+                                 (reduce (lambda (a b) (concatenate 'string a b))
+                                     lines)))))))
