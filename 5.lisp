@@ -1,6 +1,5 @@
 (in-package :cl-user)
 (ql:quickload "cl-ppcre")
-(ql:quickload "alexandria")
 (ql:quickload "fn")
 (ql:quickload "metabang-bind")
 (use-package :fn)
