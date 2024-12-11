@@ -1,4 +1,5 @@
 (in-package :cl-user)
+(ql:quickload "alexandria")
 (ql:quickload "array-operations")
 (ql:quickload "fset")
 (use-package :array-operations/transforming)
@@ -53,3 +54,15 @@
                            (recur new-pos facing (fset:with all-positions position))))
                        (fset:size (fset:with all-positions position))))))
       (recur start (vector 0 -1) (fset:empty-set)))))
+
+(defun causes-cycle-p (grid start pos)
+  "Return T if putting a wall at position POS (vector x y) would create a cycle.
+Also works if already has a wall. Make sure to pass in a copy of GRID!"
+  (setf (aref grid (second pos) (first pos)) #\#)
+
+
+(defun main-2 (filename)
+  (let* ((lines (uiop:read-file-lines filename))
+         (grid (str-list-to-2d-array lines))
+         (start (extract-starting-position! grid)))
+    (causes-cycle-p (alexandria:copy-array grid) start (vector 0 0))))
